@@ -87,13 +87,26 @@ ORDER BY CO.id ASC;
                 -- Semana 3:    Del 16 al 22 de mayo.       
                 -- Semana 4:    Del 22 al 31 de mayo.       tal vez deberia ser del 23 al 31*/
 
-SELECT CO.fecha  semana ,CAST(ROUND(((CO.precio + ISNULL(SUM(MD.precio),0))*0.13 + (CO.precio + ISNULL(SUM(MD.precio),0))),2) AS DECIMAL(8,2))  ganancia_semanal FROM consulta CO
-INNER JOIN CLIENTE CL
-ON CO.id_cliente = CL.id
+SELECT "semana"= case  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 1 AND 8))THEN 'Semana 1'
+					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 8 AND 15))THEN 'Semana 2'
+					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 16 AND 22))THEN 'Semana 3'
+					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 22 AND 31))THEN 'Semana 4'
+					   END
+,CAST(ROUND(((sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0)) + (sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0))),2) AS DECIMAL(8,2))  ganancia_semanal
+FROM consulta CO
+
 INNER JOIN RECETA RE
 ON RE.id_consulta = CO.id
 INNER JOIN MEDICAMENTO MD
 ON RE.id_medicamento = MD.id
-GROUP BY CO.id, CO.fecha,CO.precio
-WHERE case when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 1 AND 15))THEN 'Semana 1'
-ORDER BY CO.id asc;
+
+GROUP BY (
+    CASE 
+      when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 1 AND 8))THEN 'Semana 1'
+	  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 8 AND 15))THEN 'Semana 2'
+      when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 16 AND 22))THEN 'Semana 3'
+	  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 22 AND 31))THEN 'Semana 4'
+END
+)
+
+
