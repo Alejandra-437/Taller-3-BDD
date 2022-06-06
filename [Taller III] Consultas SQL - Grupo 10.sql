@@ -53,7 +53,6 @@ INNER JOIN EMERGENCIA em
 /* 6. Calcular las ganancias de la asociación en la primera quincena de mayo. Mostrar la fecha de la consulta, el nombre del cliente atendido y el nombre del médico principal. Se debe considerar que existe la posibilidad de que haya consultas en las que no se recete ningún medicamento. Ordenar el resultado con respecto al id de la consulta en orden ascendente. Las ganancias de cada consulta se calculan de la siguiente forma: (Precio de la consulta + Suma de todos los medicamentos recetados) + 13% IVA.  */
 
 
-
 ---- CONSULTA 7 ----
 
 /* 7. El comité de dirección planea realizar una fuerte inversión con el objetivo de establecer a la asociación como el consorcio líder a nivel nacional, para verificar la viabilidad del proyecto, el comité ha solicitado un reporte especial que consiste en mostrar las ganancias del mes de mayo de 2022 pero organizadas en base a 4 grupos de fechas. Por acuerdo del comité, los 4 grupos son los siguientes: 
@@ -64,4 +63,3 @@ INNER JOIN EMERGENCIA em
                 -- Semana 4:    Del 22 al 31 de mayo.       tal vez deberia ser del 23 al 31
 
 Realizar una consulta que permita mostrar las ganancias distribuidas en los 4 rangos de fechas presentadas. Considerar subconsultas. Sugerencia: investigar el uso de la estructura CASE.*/
-
