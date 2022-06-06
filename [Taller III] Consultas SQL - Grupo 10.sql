@@ -42,8 +42,7 @@ ORDER BY c.id ASC
 
 /* 5. ¿Cuáles son las clínicas capacitadas para atender emergencias? Mostrar el id de la clínica, el nombre, la dirección y email. */
 
-
-SELECT DISTINCT cl.id, cl.nombre 'Nombre Clinica', cl.direccion 'Dirección Clinica', cl.email 'Cliente', cl.telefono 'Telefono'
+SELECT DISTINCT cl.id, cl.nombre 'Nombre Clinica', cl.direccion 'Dirección Clinica', cl.email 'Email Clinica', cl.telefono 'Telefono'
 FROM CLINICA cl
 INNER JOIN EMERGENCIA em
     ON cl.id = em.id_clinica
