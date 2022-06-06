@@ -23,9 +23,9 @@ USE TALLER_03_DATABANK;
 
 SELECT c.id,c.nombre 'Nombre', c.direccion 'Dirección', planC.tipo 'Plan', email.correo 'Email Cliente', tel.telefono 'Telefono'
 FROM CLIENTE c
-INNER JOIN CORREO_CLIENTE email
+LEFT JOIN CORREO_CLIENTE email
     ON c.id =  email.id_cliente
-INNER JOIN TELEFONO_CLIENTE tel
+LEFT JOIN TELEFONO_CLIENTE tel
     ON c.id =  tel.id_cliente
 INNER JOIN TIPO_PLAN planC
     ON c.id_tipo_plan =  planC.id
@@ -43,7 +43,7 @@ ORDER BY c.id ASC
 /* 5. ¿Cuáles son las clínicas capacitadas para atender emergencias? Mostrar el id de la clínica, el nombre, la dirección y email. */
 
 
-SELECT cl.id, cl.nombre 'Nombre Clinica', cl.direccion 'Dirección Clinica', cl.email 'Cliente', cl.telefono 'Telefono'
+SELECT DISTINCT cl.id, cl.nombre 'Nombre Clinica', cl.direccion 'Dirección Clinica', cl.email 'Cliente', cl.telefono 'Telefono'
 FROM CLINICA cl
 INNER JOIN EMERGENCIA em
     ON cl.id = em.id_clinica
