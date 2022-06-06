@@ -87,26 +87,25 @@ ORDER BY CO.id ASC;
                 -- Semana 3:    Del 16 al 22 de mayo.       
                 -- Semana 4:    Del 22 al 31 de mayo.       tal vez deberia ser del 23 al 31*/
 
-SELECT "semana"= case  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 1 AND 8))THEN 'Semana 1'
-					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 8 AND 15))THEN 'Semana 2'
-					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 16 AND 22))THEN 'Semana 3'
-					   when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 22 AND 31))THEN 'Semana 4'
-					   END
-,CAST(ROUND(((sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0)) + (sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0))),2) AS DECIMAL(8,2))  ganancia_semanal
-FROM consulta CO
 
+SELECT semana ,SUM(ganancia_semanal)ganancia_semanal
+FROM (SELECT CASE 
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 1 AND 8) THEN 'Semana 1'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 8 AND 15) THEN 'Semana 2'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 16 AND 22) THEN 'Semana 3'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 23 AND 31) THEN 'Semana 4'
+END as 'semana',CAST(ROUND(((sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0)) + (sum(CO.precio)*0.13 + ISNULL(SUM(MD.precio),0))),2) AS DECIMAL(8,2))[ganancia_semanal]
+FROM CONSULTA CO
 INNER JOIN RECETA RE
 ON RE.id_consulta = CO.id
 INNER JOIN MEDICAMENTO MD
 ON RE.id_medicamento = MD.id
-
-GROUP BY (
+GROUP BY(
     CASE 
-      when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 1 AND 8))THEN 'Semana 1'
-	  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 8 AND 15))THEN 'Semana 2'
-      when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 16 AND 22))THEN 'Semana 3'
-	  when ((MONTH(CO.fecha) = 5) AND (YEAR(CO.fecha) = 2022) AND (DAY(CO.fecha) BETWEEN 22 AND 31))THEN 'Semana 4'
-END
-)
-
-
+                       WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 1 AND 8) THEN 'Semana 1'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 8 AND 15) THEN 'Semana 2'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 16 AND 22) THEN 'Semana 3'
+    WHEN (MONTH(CO.fecha) = 5 AND YEAR(CO.fecha) = 2022 AND DAY(CO.fecha) BETWEEN 23 AND 31) THEN 'Semana 4'
+					   END
+)) as x
+Group by x.semana, x.ganancia_semanal;
