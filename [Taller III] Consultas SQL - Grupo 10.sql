@@ -36,7 +36,7 @@ ORDER BY COUNT(CI.id) DESC;
 ---- CONSULTA 6 ----
 
 /* 6. Calcular las ganancias de la asociación en la primera quincena de mayo. Mostrar la fecha de la consulta, el nombre del cliente atendido y el nombre del médico principal. Se debe considerar que existe la posibilidad de que haya consultas en las que no se recete ningún medicamento. Ordenar el resultado con respecto al id de la consulta en orden ascendente. Las ganancias de cada consulta se calculan de la siguiente forma: (Precio de la consulta + Suma de todos los medicamentos recetados) + 13% IVA.  */
-SELECT Co.id id_consulta, CO.fecha Fecha, CLI.nombre nombre_cliente, MED.nombre nombre_medico, SUM(ME.precio)subtotal_medicamento FROM consulta CO
+SELECT Co.id id_consulta, CO.fecha Fecha, CLI.nombre nombre_cliente, MED.nombre nombre_medico, SUM(ME.precio)subtotal_medicamento, CO.precio precio_consulta, CO.precio+SUM(ME.precio)+0.13 total_consulta FROM consulta CO
 INNER JOIN cliente CLI
 	ON CLI.id = CO.id
 INNER JOIN MEDICOXCONSULTA MC
