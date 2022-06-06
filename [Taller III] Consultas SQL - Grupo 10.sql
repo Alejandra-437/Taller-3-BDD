@@ -36,7 +36,7 @@ ORDER BY COUNT(CI.id) DESC;
 ---- CONSULTA 6 ----
 
 /* 6. Calcular las ganancias de la asociación en la primera quincena de mayo. Mostrar la fecha de la consulta, el nombre del cliente atendido y el nombre del médico principal. Se debe considerar que existe la posibilidad de que haya consultas en las que no se recete ningún medicamento. Ordenar el resultado con respecto al id de la consulta en orden ascendente. Las ganancias de cada consulta se calculan de la siguiente forma: (Precio de la consulta + Suma de todos los medicamentos recetados) + 13% IVA.  */
-SELECT CO.fecha Fecha, CLI.nombre Cliente, MED.nombre Medico, CO.precio + SUM(ME.id)+ 0.13 Ganancias FROM consulta CO
+SELECT Co.id id_consulta, CO.fecha Fecha, CLI.nombre nombre_cliente, MED.nombre nombre_medico, SUM(ME.precio)subtotal_medicamento FROM consulta CO
 INNER JOIN cliente CLI
 	ON CLI.id = CO.id
 INNER JOIN MEDICOXCONSULTA MC
@@ -46,11 +46,12 @@ INNER JOIN MEDICO MED
 INNER JOIN RECETA RE
 	ON RE.id_consulta= Co.id
 INNER JOIN MEDICAMENTO ME
-	ON ME.id= RE.id_consulta
+	ON ME.id= RE.id_medicamento
 WHERE MC.rol = 1 AND CO.fecha BETWEEN '2022-05-01 9:00:00:000'AND'2022-05-15 9:00:00:000'
 GROUP BY CO.fecha,CLI.nombre, MED.nombre, CO.id, CO.precio
-ORDER BY Co.id ASC;
-
+ORDER BY CO.id ASC;
+ 
+ 
 
 
 
@@ -60,4 +61,20 @@ ORDER BY Co.id ASC;
                 -- Semana 1:    Del 1 al 8 de mayo.     
                 -- Semana 2:    Del 8 al 15 de mayo.        tal vez deberia ser del 9 al 15
                 -- Semana 3:    Del 16 al 22 de mayo.       
-                -- Semana 4:    Del 22 al 31 de mayo.       tal vez deberia ser del 23 al 31
+                -- Semana 4:    Del 22 al 31 de mayo.       tal vez deberia ser del 23 al 31*/
+
+SELECT CO.fecha Fecha,CO.precio + SUM(ME.id)+ 0.13 Ganancias FROM consulta CO
+INNER JOIN RECETA RE
+	ON RE.id_consulta= Co.id
+INNER JOIN MEDICAMENTO ME
+	ON ME.id= RE.id_consulta
+WHERE  CO.fecha BETWEEN '2022-05-01 9:00:00:000'AND'2022-05-15 9:00:00:000'
+GROUP BY CO.fecha, CO.id, CO.precio
+ORDER BY Co.id ASC;
+
+Select*from consulta
+WHERE  fecha BETWEEN '2022-05-01 9:00:00:000'AND'2022-05-15 9:00:00:000';
+ 
+ 
+ select*from medicamento;
+ select*from receta;
