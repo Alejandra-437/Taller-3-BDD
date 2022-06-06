@@ -43,9 +43,11 @@ ORDER BY c.id ASC
 /* 5. ¿Cuáles son las clínicas capacitadas para atender emergencias? Mostrar el id de la clínica, el nombre, la dirección y email. */
 
 
-SELECT * FROM CLINICA;
-
-
+SELECT cl.id, cl.nombre 'Nombre Clinica', cl.direccion 'Dirección Clinica', cl.email 'Cliente', cl.telefono 'Telefono'
+FROM CLINICA cl
+INNER JOIN EMERGENCIA em
+    ON cl.id = em.id_clinica
+;
 ---- CONSULTA 6 ----
 
 /* 6. Calcular las ganancias de la asociación en la primera quincena de mayo. Mostrar la fecha de la consulta, el nombre del cliente atendido y el nombre del médico principal. Se debe considerar que existe la posibilidad de que haya consultas en las que no se recete ningún medicamento. Ordenar el resultado con respecto al id de la consulta en orden ascendente. Las ganancias de cada consulta se calculan de la siguiente forma: (Precio de la consulta + Suma de todos los medicamentos recetados) + 13% IVA.  */
